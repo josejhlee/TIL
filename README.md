@@ -1,18 +1,6 @@
 # TIL
 Today I Learned 
 
-## Seminar
-- [ ] Transformer
-- [ ] Transformer in Image Domain
-- [ ] Attention Detail for Vision
-- [ ] Single Stage Semantic Segmentation from Imge Labels
-- [ ] Fairness GAN without Retraining
-- [ ] Transferabillity and Discriminabillity in Adversarial Domain Adaptation
-- [ ] EEC
-- [ ] SUPPORT-SET BOTTLENECKS FOR VIDEO-TEXT REPRESENTATION LEARNING
-- [ ] BBN
-- [ ] BYOL
-
 ## Paper
 읽은 논문 (2021.1~)
 - [ ] StyleGAN ``GAN``
@@ -32,3 +20,17 @@ Today I Learned
 - [ ] TGANv2 ``GAN`` ``video``
 - [ ] DVDGAN ``GAN`` ``video``
 - [ ] SPADE(GauGAN) ``GAN``
+
+## Seminar
+- [ ] Transformer
+- [ ] Transformer in Image Domain
+- [ ] Attention Detail for Vision
+- [ ] Single Stage Semantic Segmentation from Imge Labels
+- [ ] Fairness GAN without Retraining
+- [ ] Transferabillity and Discriminabillity in Adversarial Domain Adaptation
+- [ ] EEC
+- [ ] SUPPORT-SET BOTTLENECKS FOR VIDEO-TEXT REPRESENTATION LEARNING
+- [ ] BBN
+- [ ] BYOL
+
+
