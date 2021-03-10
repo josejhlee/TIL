@@ -20,6 +20,17 @@ Today I Learned
 - [ ] TGANv2 ``GAN`` ``video``
 - [ ] DVDGAN ``GAN`` ``video``
 - [ ] SPADE(GauGAN) ``GAN``
+- [ ] CBAM ```Architecture```
+- [ ] BAM ```Architecture```
+- [ ] SENet ```Architecture```
+- [ ] WGAN ```GAN```
+- [ ] WGAN-GP ```GAN```
+- [ ] LSGAN ```GAN```
+- [ ] SNGAN ```GAN```
+- [ ] CRGAN ```GAN```
+- [ ] iCRGAN ```GAN```
+- [ ] ADA ```GAN```
+
 
 ## Seminar
 - [ ] Transformer
@@ -32,5 +43,8 @@ Today I Learned
 - [ ] SUPPORT-SET BOTTLENECKS FOR VIDEO-TEXT REPRESENTATION LEARNING
 - [ ] BBN
 - [ ] BYOL
+- [ ] Anisotropic Stroke Control for Multiple Artists Style Transfer
+- [ ] CONTA
+- [ ] CDG_UDA
 
 
