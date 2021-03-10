@@ -20,6 +20,7 @@ Today I Learned
 - [ ] TGANv2 ``GAN`` ``video``
 - [ ] DVDGAN ``GAN`` ``video``
 - [ ] SPADE(GauGAN) ``GAN``
+- [ ] MoCo ```SSL```
 - [ ] CBAM ```Architecture```
 - [ ] BAM ```Architecture```
 - [ ] SENet ```Architecture```
