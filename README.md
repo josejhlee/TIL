@@ -3,8 +3,14 @@ Today I Learned
 
 ## Paper
 읽은 논문 (2021.1~)
+- [ ] TransGaGa ```Unsupervised Image Generation```
+- [ ] Unsupervised Learning of Object Landmarks through Conditional Image Generation ```Unsupervised Image Generation```
+- [ ] ArrowGAN ```GAN``` ```video```
+- [ ] Assessing Generative Models via Precision and Recall ```GAN```
+- [ ] Improved Precision and Recall Metric for Assessing Generative Models ```GAN```
 - [ ] StyleGAN ``GAN``
 - [ ] StyleGAN2 ``GAN``
+- [ ] TransGAN ```GAN```
 - [ ] Image Transformer ``Transformer in Vision``
 - [ ] Video Transformer ``Transformer in Vision``
 - [ ] Gatys ``Style Transfer``
@@ -31,6 +37,7 @@ Today I Learned
 - [ ] CRGAN ```GAN```
 - [ ] iCRGAN ```GAN```
 - [ ] ADA ```GAN```
+- [ ] weight imprinting ```meta learning```
 
 
 ## Seminar
@@ -47,5 +54,12 @@ Today I Learned
 - [ ] Anisotropic Stroke Control for Multiple Artists Style Transfer
 - [ ] CONTA
 - [ ] CDG_UDA
+- [ ] DenseCL
+- [ ] Point-level Temporal Action Localization
+- [ ] SCRL
+- [ ] Feature pyramid transformer
+- [ ] SimSiam, CVRL
+- [ ] DGCNN
+- [ ] Open world Object Detection
 
 
