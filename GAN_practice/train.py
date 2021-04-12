@@ -11,7 +11,7 @@ from torchvision.datasets import ImageFolder
 from torchvision.utils import save_image
 
 from trainers import Trainer
-import models
+from models import DCGAN
 
 """
 dataset_path
@@ -35,14 +35,6 @@ print_every
 """
 
 
-def weight_init(m):
-    classname = m.__class__.__name__
-
-    if classname.find('ConV') != -1 : # convolutional layer exist
-        torh.nn.init.normal_(m.weight.data, 0.0, 0.2)
-    elif classname.find('BatchNorm') != -1 : # batchnorm layer eixist
-        torhc.nn.init.normal_(m.weight.data, 1.0, 0.2)
-        torhc.nn.constant_(m.bias.data, 0)
 
 if __name__ =='__main__':
 
@@ -78,20 +70,16 @@ if __name__ =='__main__':
 
     dataset = ImageFolder(args.dataset_dir, transform)
     data_loader = DataLoader(dataset=dataset, batch_size=args.batch_size, shuffle=True, num_workers=8, drop_last=True)
-
-
-
-    generator = models.Generator()
-    discriminator = models.Discriminator()
     
+    if args.arch == "DCGAN" or "dcgan" :
+        generator = DCGAN.Generator()
+        discriminator = DCGAN.Discriminator()
+        generator.weight_init(mean=0.0, std=0.02)
+        discriminator.weight_init(mean=0.0, std=0.02)
+
     if torch.cuda.is_available():
         generator.cuda()
         discriminator.cuda()
-    
-
-    generator.weight_init(mean=0.0, std=0.02)
-    discriminator.weight_init(mean=0.0, std=0.02)
-
 
     trainer = Trainer(data_loader,
                         args.print_every,
