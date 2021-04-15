@@ -1,13 +1,15 @@
 import os
 import time
 import json
+from tqdm import tqdm
 
 import numpy as np
 
 
 import torch
 from torch import nn
-from torchvision.utils import save_image
+from torch.utils.tensorboard import SummaryWriter
+from torchvision.utils import save_image, make_grid
 
 from torch.autograd import Variable
 import torch.optim as optim
@@ -32,8 +34,8 @@ class Trainer(object):
         self.image_folder = image_folder
         self.use_cuda = use_cuda
 
-        self.gan_criterion = nn.BCEWithLogitsLoss() #without sigmoid layer in model
-        #self.gan_criterion = nn.BCELoss() #sigmoid layer in model
+        #self.gan_criterion = nn.BCEWithLogitsLoss() #without sigmoid layer in model
+        self.gan_criterion = nn.BCELoss() #sigmoid layer in model
         self.image_enumerator = None
 
     @staticmethod
@@ -98,6 +100,8 @@ class Trainer(object):
         return l_generator
 
     def train(self, generator, discriminator):
+        writer = SummaryWriter(log_dir=self.log_folder)
+
         if self.use_cuda:
             generator.cuda()
             discriminator.cuda()
@@ -111,16 +115,17 @@ class Trainer(object):
         def init_logs():
             return {'l_gen' : [], 'l_dis' : []}
 
-        batch_num = 0
+        #batch_num = 0
 
         logs = init_logs()
 
-
         start_time = time.time()
 
-        while True :
-            #generator.train()
-            #discriminator.train()
+        fixed_z = torch.randn(self.sample_num, 100, 1, 1,device=torch.device("cuda:0" if self.use_cuda else "cpu"))
+        #while True :
+        for batch_num in  tqdm(range(self.train_batches)) : 
+            generator.train()
+            discriminator.train()
 
             fake_batch = sample_fake(self.batch_size)
             discriminator.zero_grad()
@@ -131,36 +136,53 @@ class Trainer(object):
             logs['l_gen'].append(l_gen.data.item())
             logs['l_dis'].append(l_dis.data.item())
 
-            batch_num += 1
-            print("logs['l_gen'] : {}  ,  logs['l_dis'] : {}".format(l_gen.data.item(),l_dis.data.item()))
+            #batch_num += 1
+            #print("logs['l_gen'] : {}  ,  logs['l_dis'] : {}".format(l_gen.data.item(),l_dis.data.item()))
+
+
+
+            if batch_num % self.log_interval == 0 :
+                torch.save({'generator' : generator.state_dict(),
+                            'discriminator' : discriminator.state_dict(),
+                            'opt_generator' : opt_generator.state_dict(),
+                            'opt_discriminator' : opt_discriminator.state_dict()},
+                            os.path.join(os.path.join(self.model_folder, 'model_%05d.pytorch' % batch_num)))
+                #torch.save(generator, os.path.join(self.model_folder, 'generator_%05d.pytorch' % batch_num))
+                print("model save in :",os.path.join(self.model_folder, 'model_%05d.pytorch' % batch_num))
+                
+                writer.add_scalar('generator loss',l_gen.data.item(),batch_num)
+                writer.add_scalar('discriminator loss',l_dis.data.item(),batch_num)
+                
+                with open(os.path.join(self.log_folder, 'logs_%05d.json' % batch_num), "w") as json_file:
+                    json.dump(logs, json_file)
+
 
             if batch_num % self.sample_interval == 0:
+
+                generator.eval()
+                fake = generator(fixed_z)
                 
-                save_path = os.path.join(self.image_folder,"batch_num_%d" % batch_num)
-                if not os.path.isdir(save_path):
-                    os.mkdir(save_path)
-
-                sample_img = sample_fake(self.sample_num)
-                for i in range(self.sample_num):
-                    img = sample_img[i]
+                writer.add_image('fake_samples', make_grid(fake.data, normalize=True), batch_num)
+                save_image(fake.data,os.path.join(self.image_folder,'batch_num_%d.png'%batch_num),normalize=True)
+            
+                """
+                for i in range(fake.size()[0]):
+                    img = fake[i]
                     save_image(img,os.path.join(save_path,'sample_%d.png' % i))
-
-
-            if batch_num % self.log_interval == 0:
-                #generator.eval()
-
-                torch.save(generator, os.path.join(self.model_folder, 'generator_%05d.pytorch' % batch_num))
-                print("model save in :",os.path.join(self.model_folder, 'generator_%05d.pytorch' % batch_num))
-
-                with open(os.path.join(self.log_folder, 'logs_%05d.json' % batch_num), "w") as json_file:
-                  json.dump(logs, json_file)
-
-
-            if batch_num >= self.train_batches:
-                torch.save(generator, os.path.join(self.model_folder, 'generator_%05d.pytorch' % batch_num))
-                print("model save in :",os.path.join(self.model_folder, 'generator_%05d.pytorch' % batch_num))
-
-                with open(os.path.join(self.log_folder, 'logs_%05d.json' % batch_num), "w") as json_file:
-                  json.dump(logs, json_file)
-                break
-
+                """
+        
+        torch.save({'generator' : generator.state_dict(),
+                    'discriminator' : discriminator.state_dict(),
+                    'opt_generator' : opt_generator.state_dict(),
+                    'opt_discriminator' : opt_discriminator.state_dict()},
+                    os.path.join(os.path.join(self.model_folder, 'model_%05d.pytorch' % batch_num)))
+        #torch.save(generator, os.path.join(self.model_folder, 'generator_%05d.pytorch' % batch_num))
+        print("model save in :",os.path.join(self.model_folder, 'model_%05d.pytorch' % batch_num))
+        
+        writer.add_scalar('generator loss',l_gen.data.item(),batch_num)
+        writer.add_scalar('discriminator loss',l_dis.data.item(),batch_num)
+        
+        with open(os.path.join(self.log_folder, 'logs_%05d.json' % batch_num), "w") as json_file:
+            json.dump(logs, json_file)
+        
+        writer.close()

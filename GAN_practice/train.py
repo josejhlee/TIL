@@ -44,12 +44,13 @@ if __name__ =='__main__':
     parser.add_argument('--reg', type=str, default=None, help="wgangp, r1, sn")
     parser.add_argument('--dataset_dir', type=str, default='/home/minjung/minjung/dataset/CELEBA/', help="training data dir")
     parser.add_argument('--image_size', type=int, default=64)
-    parser.add_argument('--batch_size', type=int, default=1024)
-    parser.add_argument('--batches', type=int, default=100000, help ="specify number of batches to train")
-    parser.add_argument('--sample_num', type=int, default=10)
+    parser.add_argument('--batch_size', type=int, default=128)
+    parser.add_argument('--batches', type=int, default=200000, help ="specify number of batches to train")
+    parser.add_argument('--sample_num', type=int, default=64)
     parser.add_argument('--sample_every', type=int, default=500)
     parser.add_argument('--eval_every', type=int, default=1000)
     parser.add_argument('--print_every', type=int, default=500)
+    parser.add_argument('--use_tensorboard', type=bool, default = True)
     parser.add_argument('--log_folder', type=str, default="./log")
     parser.add_argument('--model_folder', type=str, default="./save_model")
     parser.add_argument('--image_folder', type=str, default="./save_img")
@@ -76,10 +77,6 @@ if __name__ =='__main__':
         discriminator = DCGAN.Discriminator()
         generator.weight_init(mean=0.0, std=0.02)
         discriminator.weight_init(mean=0.0, std=0.02)
-
-    if torch.cuda.is_available():
-        generator.cuda()
-        discriminator.cuda()
 
     trainer = Trainer(data_loader,
                         args.print_every,

@@ -9,7 +9,7 @@ def normal_init(m, mean, std):
 
 class Generator(nn.Module):
     # initializers
-    def __init__(self, d=32):
+    def __init__(self, d=128):
         super(Generator, self).__init__()
         self.deconv1 = nn.ConvTranspose2d(100, d*8, 4, 1, 0)
         self.deconv1_bn = nn.BatchNorm2d(d*8)
@@ -39,7 +39,7 @@ class Generator(nn.Module):
 
 class Discriminator(nn.Module):
     # initializers
-    def __init__(self, d=32):
+    def __init__(self, d=128):
         super(Discriminator, self).__init__()
         self.conv1 = nn.Conv2d(3, d, 4, 2, 1)
         self.conv2 = nn.Conv2d(d, d*2, 4, 2, 1)
