@@ -13,7 +13,7 @@ if __name__ == "__main__":
     os.mkdir(args.output_folder, exist_ok=True)
     checkpoint = torch.load(args.model, map_lacation=torch.device("cuda:0" if self.use_cuda else "cpu"))
     generator = load_state_dict(checkpoint['generator'])
-    gnerator.eval()
+    generator.eval()
 
     z = torch.randn(args.sample_num, 100, 1, 1,device=torch.device("cuda:0" if self.use_cuda else "cpu"))
     img = generator(z)
