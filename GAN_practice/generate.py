@@ -19,4 +19,10 @@ if __name__ == "__main__":
     img = generator(z)
     save_image(img,os.path.join(args.output_folder,'result.png'),normalize=True)
 
+    """
+    for i in range(args.sample_num):
+        img_one = img[i]
+        save_image(img_one,os.path.join(args.output_folder,'result_%06d.png' % i))
+    """
+
     
