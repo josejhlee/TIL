@@ -146,14 +146,14 @@ class Trainer(object):
                             'discriminator' : discriminator.state_dict(),
                             'opt_generator' : opt_generator.state_dict(),
                             'opt_discriminator' : opt_discriminator.state_dict()},
-                            os.path.join(os.path.join(self.model_folder, 'model_%05d.pytorch' % batch_num)))
+                            os.path.join(os.path.join(self.model_folder, 'model_%06d.pytorch' % batch_num)))
                 #torch.save(generator, os.path.join(self.model_folder, 'generator_%05d.pytorch' % batch_num))
-                print("model save in :",os.path.join(self.model_folder, 'model_%05d.pytorch' % batch_num))
+                print("model save in :",os.path.join(self.model_folder, 'model_%06d.pytorch' % batch_num))
                 
                 writer.add_scalar('generator loss',l_gen.data.item(),batch_num)
                 writer.add_scalar('discriminator loss',l_dis.data.item(),batch_num)
                 
-                with open(os.path.join(self.log_folder, 'logs_%05d.json' % batch_num), "w") as json_file:
+                with open(os.path.join(self.log_folder, 'logs_%06d.json' % batch_num), "w") as json_file:
                     json.dump(logs, json_file)
 
 
@@ -163,26 +163,26 @@ class Trainer(object):
                 fake = generator(fixed_z)
                 
                 writer.add_image('fake_samples', make_grid(fake.data, normalize=True), batch_num)
-                save_image(fake.data,os.path.join(self.image_folder,'batch_num_%d.png'%batch_num),normalize=True)
+                save_image(fake.data,os.path.join(self.image_folder,'batch_num_%06d.png'%batch_num),normalize=True)
             
                 """
                 for i in range(fake.size()[0]):
                     img = fake[i]
-                    save_image(img,os.path.join(save_path,'sample_%d.png' % i))
+                    save_image(img,os.path.join(save_path,'sample_%06d.png' % i))
                 """
         
         torch.save({'generator' : generator.state_dict(),
                     'discriminator' : discriminator.state_dict(),
                     'opt_generator' : opt_generator.state_dict(),
                     'opt_discriminator' : opt_discriminator.state_dict()},
-                    os.path.join(os.path.join(self.model_folder, 'model_%05d.pytorch' % batch_num)))
-        #torch.save(generator, os.path.join(self.model_folder, 'generator_%05d.pytorch' % batch_num))
-        print("model save in :",os.path.join(self.model_folder, 'model_%05d.pytorch' % batch_num))
+                    os.path.join(os.path.join(self.model_folder, 'model_%06d.pytorch' % batch_num)))
+        #torch.save(generator, os.path.join(self.model_folder, 'generator_%06d.pytorch' % batch_num))
+        print("model save in :",os.path.join(self.model_folder, 'model_%06d.pytorch' % batch_num))
         
         writer.add_scalar('generator loss',l_gen.data.item(),batch_num)
         writer.add_scalar('discriminator loss',l_dis.data.item(),batch_num)
         
-        with open(os.path.join(self.log_folder, 'logs_%05d.json' % batch_num), "w") as json_file:
+        with open(os.path.join(self.log_folder, 'logs_%06d.json' % batch_num), "w") as json_file:
             json.dump(logs, json_file)
         
         writer.close()
